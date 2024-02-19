@@ -4,7 +4,7 @@ version = "1.2.0"
 description = "A Django app that provides subscription features with Stripe and REST endpoints."
 authors = ["Martin Benzal <martin.gonzalez@simplekyc.com>"]
 readme = "README.md"
-packages = [{ include = "drf_stripe_subscription" }]
+packages = [{ include = "drf_stripe" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
