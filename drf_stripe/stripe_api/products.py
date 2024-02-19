@@ -38,8 +38,8 @@ def _stripe_api_fetch_update_products(test_products=None, **kwargs):
             defaults={
                 "active": product.active,
                 "description": product.description,
-                "name": product.name
-            }
+                "name": product.name,
+            },
         )
         create_update_product_features(product)
         if created is True:
@@ -71,8 +71,8 @@ def _stripe_api_fetch_update_prices(test_prices=None, **kwargs):
                 "price": price.unit_amount,
                 "freq": get_freq_from_stripe_price(price),
                 "active": price.active,
-                "currency": price.currency
-            }
+                "currency": price.currency,
+            },
         )
         if created is True:
             creation_count += 1
@@ -93,21 +93,27 @@ def create_update_product_features(product_data):
     The features are specified in Stripe Product object metadata.features as space delimited strings.
     See https://stripe.com/docs/api/products/object#product_object-metadata
     """
-    if hasattr(product_data, "metadata") and \
-            hasattr(product_data.metadata, "features") and \
-            product_data.metadata.features:
+    if (
+        hasattr(product_data, "metadata")
+        and hasattr(product_data.metadata, "features")
+        and product_data.metadata.features
+    ):
         features = product_data.metadata.features.split(" ")
 
-        ProductFeature.objects.filter(Q(product_id=product_data.id) & ~Q(feature_id__in=features)).delete()
+        ProductFeature.objects.filter(
+            Q(product_id=product_data.id) & ~Q(feature_id__in=features)
+        ).delete()
 
         for feature_id in features:
             feature_id = feature_id.strip()
             feature, created_new_feature = Feature.objects.get_or_create(
-                feature_id=feature_id,
-                defaults={"description": feature_id}
+                feature_id=feature_id, defaults={"description": feature_id}
             )
-            ProductFeature.objects.get_or_create(product_id=product_data.id, feature=feature)
+            ProductFeature.objects.get_or_create(
+                product_id=product_data.id, feature=feature
+            )
 
             if created_new_feature:
                 print(
-                    f"Created new feature_id {feature_id}, please set feature description manually in database.")
+                    f"Created new feature_id {feature_id}, please set feature description manually in database."
+                )

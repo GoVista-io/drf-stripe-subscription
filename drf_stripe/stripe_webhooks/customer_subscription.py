@@ -27,8 +27,9 @@ def _handle_customer_subscription_event_data(data: StripeSubscriptionEventData):
             "ended_at": ended_at,
             "status": status,
             "trial_end": trial_end,
-            "trial_start": trial_start
-        })
+            "trial_start": trial_start,
+        },
+    )
 
     subscription.items.all().delete()
     _create_subscription_items(data)
@@ -41,6 +42,6 @@ def _create_subscription_items(data: StripeSubscriptionEventData):
             defaults={
                 "subscription_id": data.object.id,
                 "price_id": item.price.id,
-                "quantity": item.quantity
-            }
+                "quantity": item.quantity,
+            },
         )

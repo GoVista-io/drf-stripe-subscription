@@ -24,8 +24,9 @@ def _make_webhook_event_from_request(request: Request):
 
     return stripe.Webhook.construct_event(
         payload=request.body,
-        sig_header=request.META['HTTP_STRIPE_SIGNATURE'],
-        secret=drf_stripe_settings.STRIPE_WEBHOOK_SECRET)
+        sig_header=request.META["HTTP_STRIPE_SIGNATURE"],
+        secret=drf_stripe_settings.STRIPE_WEBHOOK_SECRET,
+    )
 
 
 def _handle_event_type_validation_error(err: ValidationError):
@@ -37,8 +38,11 @@ def _handle_event_type_validation_error(err: ValidationError):
     event_type_error = False
 
     for error in err.errors():
-        error_loc = error['loc']
-        if error_loc[0] == 'event' and error.get('ctx', {}).get('discriminator_key', {}) == 'type':
+        error_loc = error["loc"]
+        if (
+            error_loc[0] == "event"
+            and error.get("ctx", {}).get("discriminator_key", {}) == "type"
+        ):
             event_type_error = True
             break
 
@@ -66,7 +70,6 @@ def handle_webhook_event(event):
     elif event_type is EventType.CUSTOMER_SUBSCRIPTION_DELETED:
         _handle_customer_subscription_event_data(e.event.data)
 
-
     elif event_type is EventType.PRODUCT_CREATED:
         _handle_product_event_data(e.event.data)
 
@@ -76,7 +79,6 @@ def handle_webhook_event(event):
     elif event_type is EventType.PRODUCT_DELETED:
         _handle_product_event_data(e.event.data)
 
-
     elif event_type is EventType.PRICE_CREATED:
         _handle_price_event_data(e.event.data)
 
@@ -85,4 +87,3 @@ def handle_webhook_event(event):
 
     elif event_type is EventType.PRICE_DELETED:
         _handle_price_event_data(e.event.data)
-   

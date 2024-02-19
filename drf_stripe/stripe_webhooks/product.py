@@ -9,10 +9,9 @@ def _handle_product_event_data(data: StripeProductEventData):
     description = data.object.description
     name = data.object.name
 
-    product, created = Product.objects.update_or_create(product_id=product_id, defaults={
-        "active": active,
-        "description": description,
-        "name": name
-    })
+    product, created = Product.objects.update_or_create(
+        product_id=product_id,
+        defaults={"active": active, "description": description, "name": name},
+    )
 
     create_update_product_features(data.object)

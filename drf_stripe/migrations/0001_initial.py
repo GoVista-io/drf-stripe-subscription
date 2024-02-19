@@ -10,109 +10,170 @@ class Migration(migrations.Migration):
 
     auth_user_model = get_drf_stripe_user_model_name()
 
-
     dependencies = [
         migrations.swappable_dependency(auth_user_model),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Feature',
+            name="Feature",
             fields=[
-                ('feature_id', models.CharField(max_length=64, primary_key=True, serialize=False)),
-                ('description', models.CharField(max_length=256, null=True)),
+                (
+                    "feature_id",
+                    models.CharField(max_length=64, primary_key=True, serialize=False),
+                ),
+                ("description", models.CharField(max_length=256, null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Price',
+            name="Price",
             fields=[
-                ('price_id', models.CharField(max_length=256, primary_key=True, serialize=False)),
-                ('nickname', models.CharField(max_length=256, null=True)),
-                ('price', models.PositiveIntegerField()),
-                ('freq', models.CharField(max_length=64, null=True)),
-                ('active', models.BooleanField()),
+                (
+                    "price_id",
+                    models.CharField(max_length=256, primary_key=True, serialize=False),
+                ),
+                ("nickname", models.CharField(max_length=256, null=True)),
+                ("price", models.PositiveIntegerField()),
+                ("freq", models.CharField(max_length=64, null=True)),
+                ("active", models.BooleanField()),
             ],
         ),
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('product_id', models.CharField(max_length=256, primary_key=True, serialize=False)),
-                ('active', models.BooleanField()),
-                ('description', models.CharField(max_length=1024, null=True)),
-                ('name', models.CharField(max_length=256, null=True)),
+                (
+                    "product_id",
+                    models.CharField(max_length=256, primary_key=True, serialize=False),
+                ),
+                ("active", models.BooleanField()),
+                ("description", models.CharField(max_length=1024, null=True)),
+                ("name", models.CharField(max_length=256, null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='ProductFeature',
+            name="ProductFeature",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='StripeUser',
+            name="StripeUser",
             fields=[
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True,
-                                              related_name='stripe_user', serialize=False,
-                                              to=auth_user_model)),
-                ('customer_id', models.CharField(max_length=128, null=True)),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        primary_key=True,
+                        related_name="stripe_user",
+                        serialize=False,
+                        to=auth_user_model,
+                    ),
+                ),
+                ("customer_id", models.CharField(max_length=128, null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Subscription',
+            name="Subscription",
             fields=[
-                ('subscription_id', models.CharField(max_length=256, primary_key=True, serialize=False)),
-                ('period_start', models.DateTimeField(null=True)),
-                ('period_end', models.DateTimeField(null=True)),
-                ('cancel_at', models.DateTimeField(null=True)),
-                ('cancel_at_period_end', models.BooleanField()),
-                ('ended_at', models.DateTimeField(null=True)),
-                ('status', models.CharField(max_length=64)),
-                ('trial_end', models.DateTimeField(null=True)),
-                ('trial_start', models.DateTimeField(null=True)),
-                ('stripe_user',
-                 models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='subscriptions',
-                                   to='drf_stripe.stripeuser')),
+                (
+                    "subscription_id",
+                    models.CharField(max_length=256, primary_key=True, serialize=False),
+                ),
+                ("period_start", models.DateTimeField(null=True)),
+                ("period_end", models.DateTimeField(null=True)),
+                ("cancel_at", models.DateTimeField(null=True)),
+                ("cancel_at_period_end", models.BooleanField()),
+                ("ended_at", models.DateTimeField(null=True)),
+                ("status", models.CharField(max_length=64)),
+                ("trial_end", models.DateTimeField(null=True)),
+                ("trial_start", models.DateTimeField(null=True)),
+                (
+                    "stripe_user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="subscriptions",
+                        to="drf_stripe.stripeuser",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='SubscriptionItem',
+            name="SubscriptionItem",
             fields=[
-                ('sub_item_id', models.CharField(max_length=256, primary_key=True, serialize=False)),
-                ('quantity', models.PositiveIntegerField()),
-                ('price', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+',
-                                            to='drf_stripe.price')),
-                ('subscription', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items',
-                                                   to='drf_stripe.subscription')),
+                (
+                    "sub_item_id",
+                    models.CharField(max_length=256, primary_key=True, serialize=False),
+                ),
+                ("quantity", models.PositiveIntegerField()),
+                (
+                    "price",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="+",
+                        to="drf_stripe.price",
+                    ),
+                ),
+                (
+                    "subscription",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="items",
+                        to="drf_stripe.subscription",
+                    ),
+                ),
             ],
         ),
         migrations.AddIndex(
-            model_name='stripeuser',
-            index=models.Index(fields=['user', 'customer_id'], name='drf_stripe__user_id_6bbc0d_idx'),
+            model_name="stripeuser",
+            index=models.Index(
+                fields=["user", "customer_id"], name="drf_stripe__user_id_6bbc0d_idx"
+            ),
         ),
         migrations.AddField(
-            model_name='productfeature',
-            name='feature',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='linked_products',
-                                    to='drf_stripe.feature'),
+            model_name="productfeature",
+            name="feature",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="linked_products",
+                to="drf_stripe.feature",
+            ),
         ),
         migrations.AddField(
-            model_name='productfeature',
-            name='product',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='linked_features',
-                                    to='drf_stripe.product'),
+            model_name="productfeature",
+            name="product",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="linked_features",
+                to="drf_stripe.product",
+            ),
         ),
         migrations.AddField(
-            model_name='price',
-            name='product',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='prices',
-                                    to='drf_stripe.product'),
+            model_name="price",
+            name="product",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="prices",
+                to="drf_stripe.product",
+            ),
         ),
         migrations.AddIndex(
-            model_name='subscription',
-            index=models.Index(fields=['stripe_user', 'status'], name='drf_stripe__stripe__7d71e7_idx'),
+            model_name="subscription",
+            index=models.Index(
+                fields=["stripe_user", "status"], name="drf_stripe__stripe__7d71e7_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='price',
-            index=models.Index(fields=['active', 'freq'], name='drf_stripe__active_3854b4_idx'),
+            model_name="price",
+            index=models.Index(
+                fields=["active", "freq"], name="drf_stripe__active_3854b4_idx"
+            ),
         ),
     ]

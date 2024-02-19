@@ -23,13 +23,18 @@ STATUS_ARG = Literal[
     "incomplete_expired",
     "trialing",
     "all",
-    "ended"
+    "ended",
 ]
 
 
 @atomic
-def stripe_api_update_subscriptions(status: STATUS_ARG = None, limit: int = 100, starting_after: str = None,
-                                    test_data=None, ignore_new_user_creation_errors = False):
+def stripe_api_update_subscriptions(
+    status: STATUS_ARG = None,
+    limit: int = 100,
+    starting_after: str = None,
+    test_data=None,
+    ignore_new_user_creation_errors=False,
+):
     """
     Retrieve all subscriptions. Updates database.
 
@@ -43,10 +48,14 @@ def stripe_api_update_subscriptions(status: STATUS_ARG = None, limit: int = 100,
     """
 
     if limit < 0 or limit > 100:
-        raise ValueError("Argument limit should be a positive integer no greater than 100.")
+        raise ValueError(
+            "Argument limit should be a positive integer no greater than 100."
+        )
 
     if test_data is None:
-        subscriptions_response = stripe.Subscription.list(status=status, limit=limit, starting_after=starting_after)
+        subscriptions_response = stripe.Subscription.list(
+            status=status, limit=limit, starting_after=starting_after
+        )
     else:
         subscriptions_response = test_data
 
@@ -69,8 +78,8 @@ def stripe_api_update_subscriptions(status: STATUS_ARG = None, limit: int = 100,
                     "ended_at": subscription.ended_at,
                     "status": subscription.status,
                     "trial_end": subscription.trial_end,
-                    "trial_start": subscription.trial_start
-                }
+                    "trial_start": subscription.trial_start,
+                },
             )
             print(f"Updated subscription {subscription.id}")
             _update_subscription_items(subscription.id, subscription.items.data)
@@ -80,7 +89,9 @@ def stripe_api_update_subscriptions(status: STATUS_ARG = None, limit: int = 100,
             if not ignore_new_user_creation_errors:
                 raise e
             else:
-                print(f"User for customer id '{subscription.customer}' with subscription '{subscription.id}' does not exist, skipping.")
+                print(
+                    f"User for customer id '{subscription.customer}' with subscription '{subscription.id}' does not exist, skipping."
+                )
 
     print(f"Created {creation_count} new Subscriptions.")
 
@@ -93,8 +104,8 @@ def _update_subscription_items(subscription_id, items_data):
             defaults={
                 "subscription_id": subscription_id,
                 "price_id": item.price.id,
-                "quantity": item.quantity
-            }
+                "quantity": item.quantity,
+            },
         )
         print(f"Updated sub item {item.id}")
 
@@ -169,7 +180,9 @@ def list_user_subscription_products(user_id, current=True):
     """
     subscriptions = list_user_subscriptions(user_id, current=current)
     sub_items = chain.from_iterable(
-        sub.items.all() for sub in subscriptions.all().prefetch_related("items__price__product"))
+        sub.items.all()
+        for sub in subscriptions.all().prefetch_related("items__price__product")
+    )
     products = set(item.price.product for item in sub_items)
     return products
 
@@ -180,11 +193,13 @@ def list_subscribable_product_prices_to_user(user_id):
 
     :param user_id: Django user id.
     """
-    current_products = set(map(attrgetter('product_id'), list_user_subscription_products(user_id)))
+    current_products = set(
+        map(attrgetter("product_id"), list_user_subscription_products(user_id))
+    )
     prices = Price.objects.filter(
-        Q(active=True) &
-        Q(product__active=True) &
-        ~Q(product__product_id__in=current_products)
+        Q(active=True)
+        & Q(product__active=True)
+        & ~Q(product__product_id__in=current_products)
     )
     return prices
 

@@ -17,6 +17,7 @@ class StripeProductMetadata(BaseModel):
 
 class StripeProduct(BaseModel):
     """A single StripeProduct, see https://stripe.com/docs/api/products/object"""
+
     id: Optional[str] = None
     active: Optional[bool] = None
     description: Optional[str] = None
@@ -35,6 +36,7 @@ class StripeProduct(BaseModel):
 
 class StripeProducts(BaseModel):
     """List of StripeProducts"""
+
     url: str
     has_more: bool
     data: List[StripeProduct]
@@ -42,5 +44,6 @@ class StripeProducts(BaseModel):
 
 class StripeProductEventData(BaseModel):
     """Based on https://stripe.com/docs/api/products/object"""
+
     object: StripeProduct
     previous_attributes: Optional[StripeProduct] = None

@@ -9,25 +9,27 @@ from .price import StripePrice
 
 class StripeSubscriptionStatus(str, Enum):
     """See: https://stripe.com/docs/api/subscriptions/object#subscription_object-status"""
-    ACTIVE = 'active'
-    PAST_DUE = 'past_due'
-    UNPAID = 'unpaid'
-    CANCELED = 'canceled'
-    INCOMPLETE = 'incomplete'
-    INCOMPLETE_EXPIRED = 'incomplete_expired'
-    TRIALING = 'trialing'
-    ENDED = 'ended'
+
+    ACTIVE = "active"
+    PAST_DUE = "past_due"
+    UNPAID = "unpaid"
+    CANCELED = "canceled"
+    INCOMPLETE = "incomplete"
+    INCOMPLETE_EXPIRED = "incomplete_expired"
+    TRIALING = "trialing"
+    ENDED = "ended"
 
 
 ACCESS_GRANTING_STATUSES = (
     StripeSubscriptionStatus.ACTIVE,
     StripeSubscriptionStatus.PAST_DUE,
-    StripeSubscriptionStatus.TRIALING
+    StripeSubscriptionStatus.TRIALING,
 )
 
 
 class StripeSubscriptionItemsDataItem(BaseModel):
     """Based on https://stripe.com/docs/api/subscriptions/object#subscription_object-items-data"""
+
     id: str
     billing_thresholds: Dict = None
     created: datetime
@@ -40,6 +42,7 @@ class StripeSubscriptionItemsDataItem(BaseModel):
 
 class StripeSubscriptionItems(BaseModel):
     """Based on https://stripe.com/docs/api/subscriptions/object#subscription_object-items"""
+
     data: List[StripeSubscriptionItemsDataItem]
     has_more: bool = None
     url: str = None
@@ -47,6 +50,7 @@ class StripeSubscriptionItems(BaseModel):
 
 class StripeSubscription(BaseModel):
     """Based on https://stripe.com/docs/api/subscriptions/object"""
+
     id: Optional[str] = None
     cancel_at_period_end: Optional[bool] = None
     cancel_at: Optional[datetime] = None
@@ -67,6 +71,7 @@ class StripeSubscription(BaseModel):
 
 class StripeSubscriptions(BaseModel):
     """Based on https://stripe.com/docs/api/subscriptions/list"""
+
     data: List[StripeSubscription]
     has_more: bool = None
     url: str = None
@@ -74,5 +79,6 @@ class StripeSubscriptions(BaseModel):
 
 class StripeSubscriptionEventData(BaseModel):
     """Based on https://stripe.com/docs/api/events/object#event_object-data"""
+
     object: StripeSubscription
     previous_attributes: Optional[StripeSubscription] = None

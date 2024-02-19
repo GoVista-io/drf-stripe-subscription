@@ -20,6 +20,6 @@ def _handle_price_event_data(data: StripePriceEventData):
             "price": price,
             "active": active,
             "freq": freq,
-            "currency": currency
-        }
+            "currency": currency,
+        },
     )

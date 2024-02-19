@@ -12,16 +12,17 @@ from django.core.management import call_command
 settings.configure(
     DEBUG=True,
     INSTALLED_APPS=(
-        'django.contrib.contenttypes',
-        'django.contrib.auth',
-        'drf_stripe',
+        "django.contrib.contenttypes",
+        "django.contrib.auth",
+        "drf_stripe",
     ),
 )
 
 django.setup()
-call_command('makemigrations', 'drf_stripe')
+call_command("makemigrations", "drf_stripe")
 
-print('''
+print(
+    """
 Finished generating migrations.
 Check the migration file, update any reference to existing user model. Ie:
 
@@ -46,4 +47,5 @@ Check the migration file, update any reference to existing user model. Ie:
     ```
         settings.AUTH_USER_MODEL
     ```
-''')
+"""
+)

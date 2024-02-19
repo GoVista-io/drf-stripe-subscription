@@ -4,14 +4,24 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from drf_stripe.stripe_webhooks.handler import handle_stripe_webhook_request
-from .serializers import SubscriptionSerializer, PriceSerializer, SubscriptionItemSerializer, CheckoutRequestSerializer
+from .serializers import (
+    SubscriptionSerializer,
+    PriceSerializer,
+    SubscriptionItemSerializer,
+    CheckoutRequestSerializer,
+)
 from .stripe_api.customer_portal import stripe_api_create_billing_portal_session
-from .stripe_api.subscriptions import list_user_subscriptions, list_user_subscription_items, \
-    list_subscribable_product_prices_to_user, list_all_available_product_prices
+from .stripe_api.subscriptions import (
+    list_user_subscriptions,
+    list_user_subscription_items,
+    list_subscribable_product_prices_to_user,
+    list_all_available_product_prices,
+)
 
 
 class Subscription(ListAPIView):
     """Subscription of current user"""
+
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = SubscriptionSerializer
     pagination_class = None
@@ -22,6 +32,7 @@ class Subscription(ListAPIView):
 
 class SubscriptionItems(ListAPIView):
     """SubscriptionItems of current user"""
+
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = SubscriptionItemSerializer
     pagination_class = None
@@ -38,6 +49,7 @@ class SubscribableProductPrice(ListAPIView):
     Authenticated user will receive a list of products and prices available to the user, excluding any product prices
     the user has already been subscribed to.
     """
+
     permission_classes = [permissions.AllowAny]
     serializer_class = PriceSerializer
     pagination_class = None
@@ -53,16 +65,23 @@ class CreateStripeCheckoutSession(APIView):
     """
     Provides session for using Stripe hosted Checkout page.
     """
+
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
-        serializer = CheckoutRequestSerializer(data=request.data, context={'request': request})
+        serializer = CheckoutRequestSerializer(
+            data=request.data, context={"request": request}
+        )
         serializer.is_valid(raise_exception=True)
-        return Response({'session_id': serializer.validated_data['session_id']}, status=status.HTTP_200_OK)
+        return Response(
+            {"session_id": serializer.validated_data["session_id"]},
+            status=status.HTTP_200_OK,
+        )
 
 
 class StripeWebhook(APIView):
     """Provides endpoint for Stripe webhooks"""
+
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):

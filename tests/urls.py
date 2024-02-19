@@ -3,6 +3,4 @@ from django.urls import include, path
 
 admin.autodiscover()
 
-urlpatterns = [
-    path("stripe/", include("drf_stripe.urls"))
-]
+urlpatterns = [path("stripe/", include("drf_stripe.urls"))]

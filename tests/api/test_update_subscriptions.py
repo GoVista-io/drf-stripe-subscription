@@ -13,7 +13,7 @@ class TestSubscription(BaseTest):
         self.setup_user_customer()
         self.setup_product_prices()
 
-    @patch('stripe.Customer.retrieve')
+    @patch("stripe.Customer.retrieve")
     def test_update_subscriptions(self, mocked_retrieve_fn):
         """
         Test retrieving list of subscription from Stripe and update database.
@@ -48,13 +48,15 @@ class TestSubscription(BaseTest):
         stripe_user_2 = StripeUser.objects.filter(customer_id="cus_tester2").first()
         self.assertIsNotNone(stripe_user_2)
 
-    @patch('stripe.Customer.retrieve')
-    def test_update_subscriptions_without_creating_django_users(self, mocked_retrieve_fn):
+    @patch("stripe.Customer.retrieve")
+    def test_update_subscriptions_without_creating_django_users(
+        self, mocked_retrieve_fn
+    ):
         """
         Test retrieving list of subscription from Stripe and update database without creating django users if they don't already exist.
         """
         drf_stripe_copy = drf_stripe_settings.user_settings
-        drf_stripe_copy['USER_CREATE_DEFAULTS_ATTRIBUTE_MAP'] = None
+        drf_stripe_copy["USER_CREATE_DEFAULTS_ATTRIBUTE_MAP"] = None
         with override_settings(DRF_STRIPE=drf_stripe_copy):
             response = self._load_test_data("v1/api_subscription_list.json")
 
@@ -63,7 +65,9 @@ class TestSubscription(BaseTest):
                 "id": "cus_tester2",
             }
 
-            stripe_api_update_subscriptions(test_data=response, ignore_new_user_creation_errors=True)
+            stripe_api_update_subscriptions(
+                test_data=response, ignore_new_user_creation_errors=True
+            )
 
         subscription = Subscription.objects.get(subscription_id="sub_0001")
         self.assertEqual(subscription.status, "trialing")

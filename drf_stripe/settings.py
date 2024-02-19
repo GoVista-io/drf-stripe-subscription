@@ -18,7 +18,7 @@ DEFAULTS = {
     "DJANGO_USER_EMAIL_FIELD": "email",  # used to match Stripe customer email
     "USER_CREATE_DEFAULTS_ATTRIBUTE_MAP": {  # attributes to copy from Stripe customer when creating new Django user
         "username": "email"
-    }
+    },
 }
 
 

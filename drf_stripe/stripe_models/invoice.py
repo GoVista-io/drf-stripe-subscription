@@ -8,6 +8,7 @@ from .price import StripePrice
 
 class StripeInvoiceLineItem(BaseModel):
     """Based on https://stripe.com/docs/api/invoices/line_item"""
+
     id: str
     amount: int
     currency: StripeCurrency
@@ -27,6 +28,7 @@ class StripeInvoiceLineItem(BaseModel):
 
 class StripeInvoiceLines(BaseModel):
     """Based on https://stripe.com/docs/api/invoices/object#invoice_object-lines"""
+
     data: List[StripeInvoiceLineItem]
     has_more: bool
     url: str
@@ -34,6 +36,7 @@ class StripeInvoiceLines(BaseModel):
 
 class StripeInvoice(BaseModel):
     """Based on https://stripe.com/docs/api/invoices/object"""
+
     id: str
     auto_advance: Optional[bool] = None
     charge: str = None
@@ -47,5 +50,6 @@ class StripeInvoice(BaseModel):
 
 class StripeInvoiceEventData(BaseModel):
     """Based on https://stripe.com/docs/api/events/object#event_object-data"""
+
     object: StripeInvoice
     previous_attributes: Optional[StripeInvoice] = None

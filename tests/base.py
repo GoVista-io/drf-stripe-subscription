@@ -23,14 +23,18 @@ class BaseTest(TestCase):
 
     @staticmethod
     def setup_user_customer():
-        user = get_user_model().objects.create(username="tester", email="tester1@example.com", password="12345")
-        stripe_user = StripeUser.objects.create(user_id=user.id, customer_id="cus_tester")
+        user = get_user_model().objects.create(
+            username="tester", email="tester1@example.com", password="12345"
+        )
+        stripe_user = StripeUser.objects.create(
+            user_id=user.id, customer_id="cus_tester"
+        )
         return user, stripe_user
 
     @staticmethod
     def _load_test_data(file_name):
         p = Path("tests/mock_responses") / file_name
-        with open(p, 'r', encoding='utf-8') as f:
+        with open(p, "r", encoding="utf-8") as f:
             data = json.load(f)
 
         return data

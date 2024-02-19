@@ -17,7 +17,7 @@ class TestCustomer(BaseTest):
         """
         Test retrieving list of customers from Stripe and creation of Django User and StripeUser instances.
         """
-        
+
         response = self._load_test_data("v1/api_customer_list_2_items.json")
 
         stripe_api_update_customers(test_data=response)
@@ -39,7 +39,7 @@ class TestCustomer(BaseTest):
         Test retrieving list of customers from Stripe when setting USER_CREATE_DEFAULTS_ATTRIBUTE_MAP is None - Django User should not be created.
         """
         drf_stripe_copy = drf_stripe_settings.user_settings
-        drf_stripe_copy['USER_CREATE_DEFAULTS_ATTRIBUTE_MAP'] = None
+        drf_stripe_copy["USER_CREATE_DEFAULTS_ATTRIBUTE_MAP"] = None
         with override_settings(DRF_STRIPE=drf_stripe_copy):
             response = self._load_test_data("v1/api_customer_list_2_items.json")
 

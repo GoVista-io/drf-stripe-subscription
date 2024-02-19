@@ -8,7 +8,15 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument("-l", "--limit", type=int, help="Limit", default=100)
-        parser.add_argument("-s", "--starting_after", type=str, help="Starting after customer id", default=None)
+        parser.add_argument(
+            "-s",
+            "--starting_after",
+            type=str,
+            help="Starting after customer id",
+            default=None,
+        )
 
     def handle(self, *args, **kwargs):
-        stripe_api_update_customers(limit=kwargs.get('limit'), starting_after=kwargs.get('starting_after'))
+        stripe_api_update_customers(
+            limit=kwargs.get("limit"), starting_after=kwargs.get("starting_after")
+        )

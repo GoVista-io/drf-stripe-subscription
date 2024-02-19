@@ -9,6 +9,7 @@ from .subscription import StripeSubscriptionItems
 
 class StripeCustomer(BaseModel):
     """Based on https://stripe.com/docs/api/customers/object"""
+
     id: str
     address: Optional[Dict] = None
     description: Optional[str] = None
@@ -37,6 +38,7 @@ class StripeCustomer(BaseModel):
 
 class StripeCustomers(BaseModel):
     """Based on https://stripe.com/docs/api/customers/list"""
+
     data: List[StripeCustomer]
     has_more: bool = None
     url: str = None
