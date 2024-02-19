@@ -9,24 +9,24 @@ from .product import StripeProduct
 
 
 class RecurringInterval(str, Enum):
-    MONTH = 'month'
-    YEAR = 'year'
-    WEEK = 'week'
-    DAY = 'day'
+    MONTH = "month"
+    YEAR = "year"
+    WEEK = "week"
+    DAY = "day"
 
 
 class UsageType(str, Enum):
-    METERED = 'metered'
-    LICENSED = 'licensed'
+    METERED = "metered"
+    LICENSED = "licensed"
 
 
 class PriceType(str, Enum):
-    ONE_TIME = 'one_time'
-    RECURRING = 'recurring'
+    ONE_TIME = "one_time"
+    RECURRING = "recurring"
 
 
 class StripePriceRecurring(BaseModel):
-    aggregate_usage: str = None
+    aggregate_usage: Optional[str]
     interval: RecurringInterval
     interval_count: Optional[int]
     usage_type: Optional[UsageType]
@@ -34,6 +34,7 @@ class StripePriceRecurring(BaseModel):
 
 class StripePrice(BaseModel):
     """A single StripePrice, see https://stripe.com/docs/api/prices/object"""
+
     id: Optional[str]
     active: Optional[bool]
     currency: Optional[StripeCurrency]
@@ -48,6 +49,7 @@ class StripePrice(BaseModel):
 
 class StripePrices(BaseModel):
     """List of StripePrices"""
+
     url: str
     has_more: bool
     data: List[StripePrice]
@@ -55,5 +57,6 @@ class StripePrices(BaseModel):
 
 class StripePriceEventData(BaseModel):
     """Based on https://stripe.com/docs/api/prices/object"""
+
     object: StripePrice
     previous_attributes: Optional[StripePrice]
