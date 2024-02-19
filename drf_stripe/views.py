@@ -73,8 +73,9 @@ class CreateStripeCheckoutSession(APIView):
             data=request.data, context={"request": request}
         )
         serializer.is_valid(raise_exception=True)
+        validated_data = serializer.validated_data
         return Response(
-            {"session_id": serializer.validated_data["session_id"]},
+            {"session_id": validated_data["session_id"], "url": validated_data["url"]},
             status=status.HTTP_200_OK,
         )
 
