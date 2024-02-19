@@ -12,27 +12,27 @@ class StripeCustomer(BaseModel):
     id: str
     address: Optional[Dict] = None
     description: Optional[str] = None
-    email: Optional[str]
-    metadata: Optional[Dict]
+    email: Optional[str] = None
+    metadata: Optional[Dict] = None
     name: Optional[str] = None
     phone: Optional[str] = None
     shipping: Optional[Dict] = None
     balance: Optional[int] = None
-    created: Optional[datetime]
+    created: Optional[datetime] = None
     currency: Optional[StripeCurrency] = None
     default_source: Optional[Union[str, Dict]] = None
-    delinquent: Optional[bool]
+    delinquent: Optional[bool] = None
     discount: Optional[Dict] = None
-    invoice_prefix: Optional[str]
-    invoice_settings: Optional[Dict]
-    livemode: Optional[bool]
-    next_invoice_sequence: Optional[int]
-    preferred_locales: Optional[List[str]]
-    sources: Optional[List[Dict]]
-    subscriptions: Optional[List[StripeSubscriptionItems]]
-    tax: Optional[Dict]
-    tax_exempt: Optional[str]
-    tax_ids: Optional[List[Dict]]
+    invoice_prefix: Optional[str] = None
+    invoice_settings: Optional[Dict] = None
+    livemode: Optional[bool] = None
+    next_invoice_sequence: Optional[int] = None
+    preferred_locales: Optional[List[str]] = None
+    sources: Optional[List[Dict]] = None
+    subscriptions: Optional[List[StripeSubscriptionItems]] = None
+    tax: Optional[Dict] = None
+    tax_exempt: Optional[str] = None
+    tax_ids: Optional[List[Dict]] = None
 
 
 class StripeCustomers(BaseModel):
