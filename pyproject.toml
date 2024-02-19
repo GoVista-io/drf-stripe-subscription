@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "drf-stripe-subscription"
+version = "1.2.0"
+description = "A Django app that provides subscription features with Stripe and REST endpoints."
+authors = ["Martin Benzal <martin.gonzalez@simplekyc.com>"]
+readme = "README.md"
+packages = [{ include = "drf_stripe_subscription" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = ">=3.2"
+djangorestframework = ">=3.10"
+pydantic = ">=2.0"
+stripe = ">=2.63"
+wheel = ">=0.37"
+
+
+[tool.poetry.group.dev.dependencies]
+tox = ">=3.26"
+black = "^24.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
