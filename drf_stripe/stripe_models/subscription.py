@@ -31,7 +31,7 @@ class StripeSubscriptionItemsDataItem(BaseModel):
     """Based on https://stripe.com/docs/api/subscriptions/object#subscription_object-items-data"""
 
     id: str
-    billing_thresholds: Dict = None
+    billing_thresholds: Optional[Dict] = None
     created: datetime
     metadata: Dict
     price: StripePrice
@@ -60,11 +60,11 @@ class StripeSubscription(BaseModel):
     current_period_end: Optional[datetime] = None
     current_period_start: Optional[datetime] = None
     customer: Optional[str] = None
-    default_payment_method: str = None
+    default_payment_method: Optional[str] = None
     items: Optional[StripeSubscriptionItems] = None
     latest_invoice: Optional[str] = None
     metadata: Optional[Dict] = None
-    pending_setup_intent: str = None
+    pending_setup_intent: Optional[str] = None
     pending_update: Any = None
     status: Optional[StripeSubscriptionStatus] = None
 
