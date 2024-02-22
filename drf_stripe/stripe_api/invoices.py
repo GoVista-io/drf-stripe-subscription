@@ -39,7 +39,6 @@ def stripe_api_update_invoices(test_invoices=None, **kwargs):
                 "currency": invoice.currency,
                 "description": invoice.description,
                 "hosted_invoice_url": invoice.hosted_invoice_url,
-                "lines": invoice.lines,
                 "paid": invoice.paid,
             },
         )
