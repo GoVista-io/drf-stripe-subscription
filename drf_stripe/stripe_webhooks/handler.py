@@ -8,6 +8,7 @@ from drf_stripe.stripe_models.event import StripeEvent
 from .customer_subscription import handle_customer_subscription_event_data
 from .price import handle_price_event_data
 from .product import handle_product_event_data
+from .invoice import handle_invoice_event_data
 
 
 def handle_stripe_webhook_request(request):
@@ -61,29 +62,35 @@ def handle_webhook_event(event):
 
     event_type = e.event.type
 
-    if event_type is EventType.CUSTOMER_SUBSCRIPTION_CREATED:
+    # Subscription events
+    if event_type in [
+        EventType.CUSTOMER_SUBSCRIPTION_CREATED,
+        EventType.CUSTOMER_SUBSCRIPTION_UPDATED,
+        EventType.CUSTOMER_SUBSCRIPTION_DELETED,
+    ]:
         handle_customer_subscription_event_data(e.event.data)
 
-    elif event_type is EventType.CUSTOMER_SUBSCRIPTION_UPDATED:
-        handle_customer_subscription_event_data(e.event.data)
-
-    elif event_type is EventType.CUSTOMER_SUBSCRIPTION_DELETED:
-        handle_customer_subscription_event_data(e.event.data)
-
-    elif event_type is EventType.PRODUCT_CREATED:
+    # Product events
+    elif event_type in [
+        EventType.PRODUCT_CREATED,
+        EventType.PRODUCT_UPDATED,
+        EventType.PRODUCT_DELETED,
+    ]:
         handle_product_event_data(e.event.data)
 
-    elif event_type is EventType.PRODUCT_UPDATED:
-        handle_product_event_data(e.event.data)
-
-    elif event_type is EventType.PRODUCT_DELETED:
-        handle_product_event_data(e.event.data)
-
-    elif event_type is EventType.PRICE_CREATED:
+    # Price events
+    elif event_type in [
+        EventType.PRICE_CREATED,
+        EventType.PRICE_UPDATED,
+        EventType.PRICE_DELETED,
+    ]:
         handle_price_event_data(e.event.data)
 
-    elif event_type is EventType.PRICE_UPDATED:
-        handle_price_event_data(e.event.data)
-
-    elif event_type is EventType.PRICE_DELETED:
-        handle_price_event_data(e.event.data)
+    # Invoice events
+    elif event_type in [
+        EventType.INVOICE_CREATED,
+        EventType.INVOICE_PAID,
+        EventType.INVOICE_FINALIZED,
+        EventType.INVOICE_UPDATED,
+    ]:
+        handle_invoice_event_data(e.event.data)

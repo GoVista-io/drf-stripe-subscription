@@ -177,3 +177,16 @@ class Invoice(models.Model):
     description = models.TextField(null=True, blank=True)
     hosted_invoice_url = models.CharField(max_length=256, null=True, blank=True)
     paid = models.BooleanField()
+
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        old_instance = type(self).objects.get(pk=self.pk) if self.pk else None
+        super().save(force_insert, force_update, using, update_fields)
+
+        if old_instance and old_instance.paid != self.paid:
+            self._handle_paid_status_change()
+
+    def _handle_paid_status_change(self):
+        if self.paid:
+            invoice_paid.send(sender=self.__class__, invoice=self)

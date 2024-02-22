@@ -2,7 +2,7 @@ from drf_stripe.models import Invoice, StripeUser, Subscription
 from drf_stripe.stripe_models.invoice import StripeInvoiceEventData
 
 
-def handle_product_event_data(data: StripeInvoiceEventData):
+def handle_invoice_event_data(data: StripeInvoiceEventData):
     invoice_id = data.object.id
     auto_advance = data.object.auto_advance
     charge = data.object.charge

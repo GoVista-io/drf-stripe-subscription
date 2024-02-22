@@ -23,6 +23,7 @@ class EventType(str, Enum):
     INVOICE_PAYMENT_SUCCEEDED = "invoice.payment_succeeded"
     INVOICE_PAYMENT_FAILED = "invoice.payment_failed"
     INVOICE_PAID = "invoice.paid"
+    INVOICE_UPDATED = "invoice.updated"
 
     INVOICEITEM_CREATED = "invoiceitem.created"
 
