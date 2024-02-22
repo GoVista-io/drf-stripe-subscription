@@ -158,3 +158,22 @@ class SubscriptionItem(models.Model):
     )
     price = models.ForeignKey(Price, on_delete=models.CASCADE, related_name="+")
     quantity = models.PositiveIntegerField()
+
+
+class Invoice(models.Model):
+    """A model representing a Stripe Invoice"""
+
+    stripe_user = models.ForeignKey(
+        StripeUser, on_delete=models.CASCADE, related_name="invoices"
+    )
+    subscription = models.ForeignKey(
+        Subscription, on_delete=models.CASCADE, related_name="invoices", null=True
+    )
+    invoice_id = models.CharField(max_length=256)
+    auto_advance = models.BooleanField(null=True)
+    charge = models.CharField(max_length=256, null=True)
+    collection_method = models.CharField(max_length=256, null=True, blank=True)
+    currency = models.CharField(max_length=256)
+    description = models.TextField(null=True, blank=True)
+    hosted_invoice_url = models.CharField(max_length=256, null=True, blank=True)
+    paid = models.BooleanField()

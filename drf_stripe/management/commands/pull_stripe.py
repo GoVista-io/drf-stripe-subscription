@@ -9,3 +9,4 @@ class Command(BaseCommand):
         call_command("update_stripe_products")
         call_command("update_stripe_customers")
         call_command("update_stripe_subscriptions")
+        call_command("update_stripe_invoices")

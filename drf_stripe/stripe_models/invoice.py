@@ -29,7 +29,7 @@ class StripeInvoiceLineItem(BaseModel):
 class StripeInvoiceLines(BaseModel):
     """Based on https://stripe.com/docs/api/invoices/object#invoice_object-lines"""
 
-    data: List[StripeInvoiceLineItem]
+    data: list[StripeInvoiceLineItem]
     has_more: bool
     url: str
 
@@ -43,9 +43,11 @@ class StripeInvoice(BaseModel):
     collection_method: Optional[str] = None
     currency: str
     customer: str
+    subscription: Optional[str] = None
     description: str = None
     hosted_invoice_url: Optional[str] = None
     lines: Optional[StripeInvoiceLines] = None
+    paid: bool
 
 
 class StripeInvoiceEventData(BaseModel):
