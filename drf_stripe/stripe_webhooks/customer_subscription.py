@@ -2,7 +2,7 @@ from drf_stripe.models import Subscription, SubscriptionItem, StripeUser
 from drf_stripe.stripe_models.event import StripeSubscriptionEventData
 
 
-def _handle_customer_subscription_event_data(data: StripeSubscriptionEventData):
+def handle_customer_subscription_event_data(data: StripeSubscriptionEventData):
     subscription_id = data.object.id
     customer = data.object.customer
     period_start = data.object.current_period_start
