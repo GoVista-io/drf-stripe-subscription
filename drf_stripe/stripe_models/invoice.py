@@ -49,6 +49,13 @@ class StripeInvoice(BaseModel):
     lines: Optional[StripeInvoiceLines] = None
     paid: bool
 
+class StripeInvoices(BaseModel):
+    """Based on https://stripe.com/docs/api/invoices/list"""
+
+    data: List[StripeInvoice]
+    has_more: bool = None
+    url: str = None
+
 
 class StripeInvoiceEventData(BaseModel):
     """Based on https://stripe.com/docs/api/events/object#event_object-data"""

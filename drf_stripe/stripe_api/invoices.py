@@ -2,7 +2,7 @@ from django.db.transaction import atomic
 
 from drf_stripe.models import Invoice, StripeUser, Subscription
 from .api import stripe_api as stripe
-from ..stripe_models.invoice import StripeInvoice
+from ..stripe_models.invoice import StripeInvoices
 
 
 @atomic()
@@ -17,7 +17,7 @@ def stripe_api_update_invoices(test_invoices=None, **kwargs):
     else:
         invoices_data = test_invoices
 
-    invoices = StripeInvoice(**invoices_data).data
+    invoices = StripeInvoices(**invoices_data).data
 
     creation_count = 0
     for invoice in invoices:
