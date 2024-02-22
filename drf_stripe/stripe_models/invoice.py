@@ -44,10 +44,11 @@ class StripeInvoice(BaseModel):
     currency: str
     customer: str
     subscription: Optional[str] = None
-    description: str = None
+    description: Optional[str] = None
     hosted_invoice_url: Optional[str] = None
     lines: Optional[StripeInvoiceLines] = None
     paid: bool
+
 
 class StripeInvoices(BaseModel):
     """Based on https://stripe.com/docs/api/invoices/list"""
