@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.apps import apps as django_apps
 from django.conf import settings
+from drf_stripe.signals import invoice_paid
 
 from .stripe_models.subscription import ACCESS_GRANTING_STATUSES
 from .settings import drf_stripe_settings
@@ -169,7 +170,7 @@ class Invoice(models.Model):
     subscription = models.ForeignKey(
         Subscription, on_delete=models.CASCADE, related_name="invoices", null=True
     )
-    invoice_id = models.CharField(max_length=256)
+    invoice_id = models.CharField(max_length=256, primary_key=True)
     auto_advance = models.BooleanField(null=True)
     charge = models.CharField(max_length=256, null=True)
     collection_method = models.CharField(max_length=256, null=True, blank=True)
