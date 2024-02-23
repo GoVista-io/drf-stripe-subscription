@@ -182,7 +182,12 @@ class Invoice(models.Model):
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
-        old_instance = type(self).objects.get(pk=self.pk) if self.pk else None
+        old_instance = None
+        try:
+            old_instance = Invoice.objects.get(pk=self.pk)
+        except Invoice.DoesNotExist:
+            pass
+
         super().save(force_insert, force_update, using, update_fields)
 
         if old_instance and old_instance.paid != self.paid:
