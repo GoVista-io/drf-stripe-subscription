@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from stripe.error import StripeError
+from stripe import StripeError
 
 from drf_stripe.models import SubscriptionItem, Product, Price, Subscription
 from drf_stripe.stripe_api.checkout import stripe_api_create_checkout_session
