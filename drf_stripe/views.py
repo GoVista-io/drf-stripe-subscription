@@ -50,7 +50,7 @@ class SubscribableProductPrice(ListAPIView):
     the user has already been subscribed to.
     """
 
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = PriceSerializer
     pagination_class = None
 
