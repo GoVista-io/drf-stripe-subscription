@@ -55,10 +55,7 @@ class SubscribableProductPrice(ListAPIView):
     pagination_class = None
 
     def get_queryset(self):
-        if self.request.user.is_anonymous:
-            return list_all_available_product_prices()
-        else:
-            return list_subscribable_product_prices_to_user(self.request.user.id)
+        return list_all_available_product_prices()
 
 
 class CreateStripeCheckoutSession(APIView):
